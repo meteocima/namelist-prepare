@@ -22,7 +22,10 @@ type tmplArgs struct {
 	MetGridConstants string
 	Start            dateArg
 	End              dateArg
+	OneHBeforeStart  string
+	OneHAfterStart   string
 	Hours            int
+	MetgridLevels    int
 }
 
 func createTemplateArgs(start, end time.Time, hours int) tmplArgs {
@@ -39,12 +42,24 @@ func createTemplateArgs(start, end time.Time, hours int) tmplArgs {
 	args.Start.Hour = start.Hour()
 	args.Start.Iso = start.Format("2006-01-02_15:00:00")
 
+	args.OneHBeforeStart = start.Add(-1 * time.Hour).Format("2006-01-02_15:00:00")
+	args.OneHAfterStart = start.Add(1 * time.Hour).Format("2006-01-02_15:00:00")
+
 	args.End.Day = end.Day()
 	args.End.Month = int(end.Month())
 	args.End.Year = end.Year()
 	args.End.Hour = end.Hour()
 	args.End.Iso = end.Format("2006-01-02_15:00:00")
 
+	metgridLevels := 34
+	if start.Before(time.Date(2019, time.June, 12, 12, 0, 0, 0, time.UTC)) {
+		metgridLevels = 32
+	}
+	if start.Before(time.Date(2016, time.May, 11, 12, 0, 0, 0, time.UTC)) {
+		metgridLevels = 27
+	}
+
+	args.MetgridLevels = metgridLevels
 	args.Hours = hours
 	return args
 }
