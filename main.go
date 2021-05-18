@@ -8,7 +8,7 @@ import (
 	"github.com/meteocima/namelist-prepare/namelist"
 )
 
-func parseArgs() (start, end time.Time, hours int) {
+func parseArgs() (start, end time.Time) {
 	startdateS := os.Args[1]
 	enddateS := os.Args[2]
 
@@ -24,9 +24,7 @@ func parseArgs() (start, end time.Time, hours int) {
 		os.Exit(1)
 	}
 
-	lenghtHours := int(enddate.Sub(startdate) / time.Hour)
-
-	return startdate, enddate, lenghtHours
+	return startdate, enddate
 }
 
 func main() {
@@ -36,12 +34,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	startdate, enddate, hours := parseArgs()
+	startdate, enddate := parseArgs()
 	nlRenderer := namelist.Tmpl{}
 	nlRenderer.ReadTemplateFrom(os.Stdin)
 	nlRenderer.RenderTo(namelist.Args{
 		Start: startdate,
-		End:   enddate,
-		Hours: hours,
+		End:   enddate
 	}, os.Stdout)
 }

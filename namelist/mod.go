@@ -67,7 +67,6 @@ func createTemplateArgs(start, end time.Time, hours int) tmplArgs {
 // Args ...
 type Args struct {
 	Start, End time.Time
-	Hours      int
 }
 
 // Tmpl ...
@@ -82,8 +81,9 @@ func (this *Tmpl) RenderTo(args Args, w io.Writer) {
 		fmt.Printf("Error while parsing template: %s", err.Error())
 		os.Exit(1)
 	}
+	lenghtHours := int(args.End.Sub(args.Start) / time.Hour)
 
-	tmplArgs := createTemplateArgs(args.Start, args.End, args.Hours)
+	tmplArgs := createTemplateArgs(args.Start, args.End, lenghtHours)
 
 	err = tmpl.Execute(w, tmplArgs)
 	if err != nil {
