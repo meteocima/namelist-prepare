@@ -39,6 +39,6 @@ func main() {
 	nlRenderer.ReadTemplateFrom(os.Stdin)
 	nlRenderer.RenderTo(namelist.Args{
 		Start: startdate,
-		End:   enddate
+		End:   enddate,
 	}, os.Stdout)
 }

@@ -27,7 +27,6 @@ func Test(t *testing.T) {
 	args := Args{
 		Start: time.Date(2020, 12, 25, 6, 0, 0, 0, time.UTC),
 		End:   time.Date(2020, 12, 27, 6, 0, 0, 0, time.UTC),
-		Hours: 48,
 	}
 
 	nlRenderer := Tmpl{}
